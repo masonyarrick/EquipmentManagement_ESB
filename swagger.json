@@ -90,7 +90,7 @@
         }
       }
     },
-    "WorkResourceCommitted" : {
+    "WorkResourceCommittedMessage" : {
       "type" : "object",
       "description" : "The work resource committed operations event provides the ability for Level 3 resource management activities to provide notification of the commitment of resources in a work schedule.",
       "required" : [ "added", "changed", "deleted" ],
