@@ -1,0 +1,121 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Defines the messages published by the Equipment Resource Management App Service.",
+    "version" : "1.0.0",
+    "title" : "Equipment Resource Management App Service API",
+    "contact" : {
+      "email" : "mason.yarrick@bhp.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "paths" : { },
+  "definitions" : {
+    "ResourceAcquired" : {
+      "type" : "object",
+      "required" : [ "added" ],
+      "properties" : {
+        "added" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Equipment"
+          }
+        }
+      }
+    },
+    "ResourceAdjusted" : {
+      "type" : "object",
+      "required" : [ "added", "changed", "deleted" ],
+      "properties" : {
+        "added" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Equipment"
+          }
+        },
+        "updated" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Equipment"
+          }
+        },
+        "removed" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Equipment"
+          }
+        }
+      }
+    },
+    "Equipment" : {
+      "type" : "object",
+      "required" : [ "id", "hierarchyScopeId" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "example" : "EX7015"
+        },
+        "equipmentLevel" : {
+          "type" : "string",
+          "example" : "Work Unit"
+        },
+        "equipmentClassID" : {
+          "type" : "string",
+          "example" : "ER-9400"
+        },
+        "description" : {
+          "type" : "string",
+          "example" : "Excavating Unit"
+        },
+        "hierarchyScopeId" : {
+          "type" : "string",
+          "example" : "ER-IP"
+        },
+        "creationTimestamp" : {
+          "type" : "string",
+          "example" : "2018251101"
+        },
+        "properties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EquipmentProperty"
+          }
+        }
+      }
+    },
+    "EquipmentProperty" : {
+      "type" : "object",
+      "required" : [ "id", "value", "unitOfMeasure" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "example" : "Fe"
+        },
+        "description" : {
+          "type" : "string",
+          "example" : "Iron"
+        },
+        "value" : {
+          "type" : "string",
+          "example" : "62"
+        },
+        "unitOfMeasure" : {
+          "type" : "string",
+          "example" : "percentage"
+        },
+        "properties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EquipmentProperty"
+          }
+        }
+      }
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/BHP7/EquipmentResourceManagement_ESB/1.0.0",
+  "schemes" : [ "https" ]
+}
