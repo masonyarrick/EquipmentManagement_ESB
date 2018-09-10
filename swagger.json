@@ -3,7 +3,7 @@
   "info" : {
     "description" : "Defines the messages published by the Equipment Resource Management App Service.",
     "version" : "1.0.0",
-    "title" : "Equipment Resource Management App ESB Contract",
+    "title" : "Equipment Resource Management ESB Contract",
     "contact" : {
       "email" : "mason.yarrick@bhp.com"
     },
