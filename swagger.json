@@ -1,3 +1,318 @@
 {
-  "swagger" : "2.0"
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Production resource management shall be defined as the collection of activities that manage the information about resources required by production operations, and relationships between resources. The resources include machines, tools, labour (with specific skill sets), materials and energy, as defined in the object models given in ISA-95 Part 1. Direct control of these resources in order to meet production requirements is performed in other activities, such as production dispatching and production execution management. Management of information about segments of production is also an activity in resource management. Management of the resource information may be handled by computer systems but it may be partly or entirely handled by manual processes. Management of the resources may include local resource reservation systems to manage information about future availability. There may be separate reservation systems for each managed critical resource. There may be separate activities for each type of resource, or combined activities for sets of resources.  Information about resources and relationships between resources needed for a segment of production must be maintained and provided on the available, committed and unattainable capacity for specific periods of time of specified resources as defined in ISA-95 Part 1.",
+    "version" : "1.0.0",
+    "title" : "Equipment Resource Management ESB Contract",
+    "contact" : {
+      "email" : "mason.yarrick@bhp.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "paths" : { },
+  "definitions" : {
+    "ResourceAcquiredMessage" : {
+      "type" : "object",
+      "description" : "The resource acquired event notifies the acquisition of new physical resources. The physical resource(s) may have been acquired through processes such as procurement, recruitment or processes that produce material lots/sublots.",
+      "required" : [ "added" ],
+      "properties" : {
+        "added" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Equipment"
+          }
+        }
+      }
+    },
+    "ResourceAdjustedMessage" : {
+      "type" : "object",
+      "description" : "The resource adjusted event provides the ability for Level 4 supply chain operations processes or the resource management activity to notify Level 3 activities of adjustments to physical resources. The physical resource(s) may have been adjusted through processes such as commissioning of a physical asset, updated procurement information or changes to a material lot during operations scheduling or as a result of a test.",
+      "required" : [ "added", "changed", "deleted" ],
+      "properties" : {
+        "added" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Equipment"
+          }
+        },
+        "updated" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Equipment"
+          }
+        },
+        "removed" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Equipment"
+          }
+        }
+      }
+    },
+    "ResourceRetiredMessage" : {
+      "type" : "object",
+      "description" : "The resource retired event provides the ability for Level 4 supply chain operations processes or the resource management activity to notify Level 3 activities when physical resources have been retired from service. The physical resource(s) may have been retired from service through processes such as disposal of a physical asset, when personnel leave an organization or when material lots are delivered to customers.",
+      "required" : [ "deleted" ],
+      "properties" : {
+        "deleted" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Equipment"
+          }
+        }
+      }
+    },
+    "WorkCapabilityManagedMessage" : {
+      "type" : "object",
+      "description" : "The work capability managed operations event provides the ability for the Level 3 resource management function to notify other Level 3 activities of changes to work capabilities.",
+      "required" : [ "added", "changed", "deleted" ],
+      "properties" : {
+        "added" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EquipmentCapability"
+          }
+        },
+        "changed" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EquipmentCapability"
+          }
+        },
+        "deleted" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EquipmentCapability"
+          }
+        }
+      }
+    },
+    "WorkResourceCommittedMessage" : {
+      "type" : "object",
+      "description" : "The work resource committed operations event provides the ability for Level 3 resource management activities to provide notification of the commitment of resources in a work schedule.",
+      "required" : [ "added", "changed", "deleted" ],
+      "properties" : {
+        "added" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EquipmentCapability"
+          }
+        },
+        "changed" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EquipmentCapability"
+          }
+        },
+        "deleted" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EquipmentCapability"
+          }
+        }
+      }
+    },
+    "Equipment" : {
+      "type" : "object",
+      "description" : "A representation of the elements of the equipment hierarchy model shown in Part 1 shall be known as equipment. Equipment may be a listing of sites, areas, production units, production lines, work cells, process cells, units, storage zones or storage units. Equipment may be tested by the execution of an equipment capability test specification. Equipment may be made up of other equipment, as presented in the equipment hierarchy model.",
+      "required" : [ "id", "version", "equipmentLevel", "hierarchyScopeId", "effectiveFrom", "effectiveTo" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "A unique identification of a specific piece of equipment, within the scope of the information exchanged (manufacturing operations definition, scheduling, capability and performance) The equipment ID shall be used in other parts of the model when the equipment needs to be identified, such as the production capability for a piece of equipment, or a production response identifying the equipment used.",
+          "example" : "EX7015"
+        },
+        "version" : {
+          "type" : "number",
+          "description" : "The version of this Equipment that this message describes.",
+          "example" : 1
+        },
+        "equipmentLevel" : {
+          "type" : "string",
+          "description" : "An identification of the level in the role based equipment hierarchy.",
+          "example" : "Work Unit"
+        },
+        "equipmentClassId" : {
+          "type" : "string",
+          "description" : "The type of this Equipment item",
+          "example" : "ER-9400"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Additional information about the equipment.",
+          "example" : "Excavator EX7015"
+        },
+        "hierarchyScopeId" : {
+          "type" : "string",
+          "description" : "The part of the supply chain where the Equipment item exists.",
+          "example" : "ER-IP"
+        },
+        "effectiveFrom" : {
+          "type" : "string",
+          "description" : "The timestamp that this Equipment item version is applicable from.",
+          "example" : "201808151000"
+        },
+        "effectiveTo" : {
+          "type" : "string",
+          "description" : "The timestamp that this Equipment item version is applicable to.",
+          "example" : "201808151000"
+        },
+        "properties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EquipmentProperty"
+          }
+        }
+      }
+    },
+    "EquipmentProperty" : {
+      "type" : "object",
+      "description" : "Properties of equipment shall be listed as equipment properties. An equipment shall have zero or more equipment properties. These specify the current property values of the equipment for the associated equipment class property. Equipment properties may include a unit of measure. An equipment property may be tested by the execution of an equipment capability test specification with results exchanged in an equipment capability test result. Equipment properties may contain nested equipment properties.",
+      "required" : [ "id", "description", "value", "valueUnitOfMeasure" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "An identification of the specific property.",
+          "example" : "DigRate"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Additional information about the equipment property.",
+          "example" : "Dig Rate"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The value, set of values, or range of the property. The value(s) is assumed to be within the range or set of defined values for the related equipment property.",
+          "example" : 3600
+        },
+        "valueUnitOfMeasure" : {
+          "type" : "string",
+          "description" : "The unit of measure of the associated property value, if applicable.",
+          "example" : "Tonnes/Hour"
+        }
+      }
+    },
+    "EquipmentCapability" : {
+      "type" : "object",
+      "description" : "A representation of the capability of equipment or equipment classes that is committed, available, or unattainable for a specific time shall be used as an equipment capability. Equipment capability may contain references to either equipment or equipment classes.",
+      "required" : [ "capabilityType", "quantity", "quantityUnitOfMeasure" ],
+      "properties" : {
+        "equipmentClassId" : {
+          "type" : "string",
+          "description" : "Identifies the associated equipment class of the capability.",
+          "example" : "ER-9400"
+        },
+        "equipmentId" : {
+          "type" : "string",
+          "description" : "Identifies the associated equipment of the capability.",
+          "example" : "EX7015"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Contains additional information and descriptions of the equipment capability definition.",
+          "example" : "Used for digging"
+        },
+        "capabilityType" : {
+          "type" : "string",
+          "description" : "The capability type: Used, Unused, Total, Available, Unattainable, or Committed.",
+          "example" : "{Used,Unused,Total,Available,Unattainable,Committed}"
+        },
+        "reason" : {
+          "type" : "string",
+          "description" : "Defines the reason for the capability type.",
+          "example" : "Due to schedule compliance"
+        },
+        "confidenceFactor" : {
+          "type" : "number",
+          "description" : "A measure of the confidence of the capacity value.",
+          "example" : 75
+        },
+        "hieararchyScopeId" : {
+          "type" : "string",
+          "description" : "Identifies where the exchanged information fits within the role based equipment hierarchy.   If omitted, then the capability is associated to the parent operations capability hierarchy scope.   Zero or more as required to identify the specific scope of the operations capability definition.",
+          "example" : "ER-IP"
+        },
+        "equipmentUse" : {
+          "type" : "string",
+          "description" : "Defines the expected capability use of the equipment class or equipment.",
+          "example" : "Digging"
+        },
+        "startTime" : {
+          "type" : "string",
+          "description" : "The starting time associated with the equipment capability. If omitted, then the capability is associated to the parent operations capability start time.",
+          "example" : "201808231000"
+        },
+        "endTime" : {
+          "type" : "string",
+          "description" : "The ending time associated with the equipment capability. If omitted, then the capability is associated to the parent operations capability end time.",
+          "example" : "201208241100"
+        },
+        "quantity" : {
+          "type" : "number",
+          "description" : "Specifies the quantity of the equipment capability defined, if applicable.",
+          "example" : 1
+        },
+        "quantityUnitOfMeasure" : {
+          "type" : "string",
+          "description" : "The unit of measure of the associated quantity, if applicable.",
+          "example" : "Each"
+        },
+        "properties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EquipmentCapabilityProperty"
+          }
+        }
+      }
+    },
+    "EquipmentCapabilityProperty" : {
+      "type" : "object",
+      "description" : "Equipment capability properties may contain nested equipment capability properties.",
+      "required" : [ "id", "value", "quantity" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "An identification of a property of the associated equipment property or equipment class property.",
+          "example" : "e4cad374-1dbc-4873-b46f-5a37c4215a5f"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Contains additional information and descriptions of the equipment capability property definition.",
+          "example" : "Measurement System"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The value, set of values, or range of the property.",
+          "example" : "Metric"
+        },
+        "valueUnitOfMeasure" : {
+          "type" : "string",
+          "description" : "The unit of measure of the associated property value, if applicable.",
+          "example" : "{Metric,Imperial}"
+        },
+        "quantity" : {
+          "type" : "number",
+          "description" : "Specifies the quantity of the equipment capability defined, if applicable.",
+          "example" : 1
+        },
+        "quantityUnitOfMeasure" : {
+          "type" : "string",
+          "description" : "The unit of measure of the associated quantity.",
+          "example" : "Each"
+        },
+        "properties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EquipmentCapabilityProperty"
+          }
+        }
+      }
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/BHP7/EquipmentResourceManagement_ESB/1.0.0",
+  "schemes" : [ "https" ]
 }
